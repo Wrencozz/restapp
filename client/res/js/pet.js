@@ -1,24 +1,27 @@
 const info = document.getElementById("info");
-const getAllBooksBtn = document.getElementById("getAllBooksBtn");
-const getBookByIdBtn = document.getElementById("getBookByIdBtn");
-const postBookBtn = document.getElementById("postBookBtn");
-const putBookBtn = document.getElementById("putBookBtn");
-const patchBookBtn = document.getElementById("patchBookBtn");
-const deleteBookBtn = document.getElementById("deleteBookBtn");
-const getBookByIdInput = document.getElementById("getBookByIdInput");
+const getAllPetsBtn = document.getElementById("getAllPetsBtn");
+const getPetByIdBtn = document.getElementById("getPetByIdBtn");
+const postPetBtn = document.getElementById("postPetBtn");
+const putPetBtn = document.getElementById("putPetBtn");
+const patchPetBtn = document.getElementById("patchPetBtn");
+const deletePetBtn = document.getElementById("deletePetBtn");
+const getPetByIdInput = document.getElementById("getPetByIdInput");
 const postNameInput = document.getElementById("postNameInput");
 const postYearInput = document.getElementById("postYearInput");
+const postBreedInput = document.getElementById("postBreedInput");
 const putIdInput = document.getElementById("putIdInput");
 const putNameInput = document.getElementById("putNameInput");
 const putYearInput = document.getElementById("putYearInput");
+const putBreedInput = document.getElementById("putBreedInput");
 const patchIdInput = document.getElementById("patchIdInput");
 const patchNameInput = document.getElementById("patchNameInput");
 const patchYearInput = document.getElementById("patchYearInput");
+const patchBreedInput = document.getElementById("patchBreedInput");
 const deleteIdInput = document.getElementById("deleteIdInput");
 
-const getAllBooksEvent = async () => {
+const getAllPetsEvent = async () => {
   try {
-    const res = await fetch("http://127.0.0.1:3000/book", {
+    const res = await fetch("http://127.0.0.1:3000/pet", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -27,24 +30,24 @@ const getAllBooksEvent = async () => {
     });
     const data = await res.json();
     info.innerHTML = "";
-    data.books.map((book) => {
-      info.innerHTML += `<p>id: ${book._id}</p>`;
-      info.innerHTML += `<p>name: ${book.name}</p>`;
-      info.innerHTML += `<p>year: ${book.year}</p>`;
-      info.innerHTML += `<p>request: ${Object.values(book.request)}</p>`;
+    data.pets.map((pet) => {
+      info.innerHTML += `<p>id: ${pet._id}</p>`;
+      info.innerHTML += `<p>name: ${pet.name}</p>`;
+      info.innerHTML += `<p>year: ${pet.year}</p>`;
+      info.innerHTML += `<p>request: ${Object.values(pet.request)}</p>`;
       info.innerHTML += `<p><br></p>`;
     });
   } catch (error) {
     info.innerText = error;
   }
 };
-getAllBooksBtn.onclick = getAllBooksEvent;
+getAllPetsBtn.onclick = getAllPetsEvent;
 
-const getBookByIdEvent = async () => {
+const getPetByIdEvent = async () => {
   try {
-    const getBookByIdInputValue = getBookByIdInput.value;
+    const getPetByIdInputValue = getPetByIdInput.value;
     const res = await fetch(
-      `http://127.0.0.1:3000/book/${getBookByIdInputValue}`,
+      `http://127.0.0.1:3000/pet/${getPetByIdInputValue}`,
       {
         headers: {
           Accept: "application/json",
@@ -62,13 +65,14 @@ const getBookByIdEvent = async () => {
     info.innerHTML = `<p>Book not found!</p>`
   }
 };
-getBookByIdBtn.onclick = getBookByIdEvent;
+getPetByIdBtn.onclick = getPetByIdEvent;
 
-const postBookEvent = async () => {
+const postPetEvent = async () => {
   try {
     const postNameInputValue = postNameInput.value;
     const postYearInputValue = postYearInput.value;
-    const res = await fetch("http://127.0.0.1:3000/book", {
+    const postBreedInputValue = postBreedInput.value;
+    const res = await fetch("http://127.0.0.1:3000/pet", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -77,29 +81,31 @@ const postBookEvent = async () => {
       body: JSON.stringify({
         name: postNameInputValue,
         year: postYearInputValue,
+        breed: postBreedInputValue,
       }),
     });
     const data = await res.json();
     info.innerHTML = `<p>Message: ${data.message}</p>`;
     info.innerHTML += `<p>Created book:</p>`;
-    info.innerHTML += `<p>id: ${data.createdBook._id}</p>`;
-    info.innerHTML += `<p>name: ${data.createdBook.name}</p>`;
-    info.innerHTML += `<p>year: ${data.createdBook.year}</p>`;
+    info.innerHTML += `<p>id: ${data.createdPet._id}</p>`;
+    info.innerHTML += `<p>name: ${data.createdPet.name}</p>`;
+    info.innerHTML += `<p>year: ${data.createdPet.year}</p>`;
     info.innerHTML += `<p>payload: ${Object.values(
-      data.createdBook.payload
+      data.createdPet.payload
     )}</p>`;
   } catch (error) {
-    info.innerText = postBookEvent;
+    info.innerText = postPetEvent;
   }
 };
-postBookBtn.onclick = postBookEvent;
+postPetBtn.onclick = postPetEvent;
 
-const putBookEvent = async () => {
+const putPetEvent = async () => {
   try {
     const putIdInputValue = putIdInput.value;
     const putNameInputValue = putNameInput.value;
     const putYearInputValue = putYearInput.value;
-    const res = await fetch(`http://127.0.0.1:3000/book/${putIdInputValue}`, {
+    const putBreedInputValue = putBreedInput.value;
+    const res = await fetch(`http://127.0.0.1:3000/pet/${putIdInputValue}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -108,6 +114,7 @@ const putBookEvent = async () => {
       body: JSON.stringify({
         name: putNameInputValue,
         year: putYearInputValue,
+        breed: putBreedInputValue,
       }),
     });
     const data = await res.json();
@@ -116,13 +123,14 @@ const putBookEvent = async () => {
     info.innerText = error;
   }
 };
-putBookBtn.onclick = putBookEvent;
+putPetBtn.onclick = putPetEvent;
 
-const patchBookEvent = async () => {
+const patchPetEvent = async () => {
   try {
     const patchIdInputValue = patchIdInput.value;
     const patchNameInputValue = patchNameInput.value;
     const patchYearInputValue = patchYearInput.value;
+    const patchBreedInputValue = patchBreedInput.value;
     let body = [];
     if (patchNameInputValue.trim().length) {
       const nameProp = {
@@ -138,7 +146,14 @@ const patchBookEvent = async () => {
       };
       body.push(yearProp);
     }
-    const res = await fetch(`http://127.0.0.1:3000/book/${patchIdInputValue}`, {
+    if (patchBreedInputValue.trim().length) {
+        const breedProp = {
+          propName: "breed",
+          value: patchBreedInputValue,
+        };
+        body.push(breedProp);
+      }
+    const res = await fetch(`http://127.0.0.1:3000/pet/${patchIdInputValue}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -153,13 +168,13 @@ const patchBookEvent = async () => {
     info.innerText = error;
   }
 };
-patchBookBtn.onclick = patchBookEvent;
+patchPetBtn.onclick = patchPetEvent;
 
-const deleteBookEvent = async () => {
+const deletePetEvent = async () => {
   try {
     const deleteIdInputValue = deleteIdInput.value;
     const res = await fetch(
-      `http://127.0.0.1:3000/book/${deleteIdInputValue}`,
+      `http://127.0.0.1:3000/pet/${deleteIdInputValue}`,
       {
         headers: {
           Accept: "application/json",
@@ -169,10 +184,10 @@ const deleteBookEvent = async () => {
       }
     );
     const data = await res.json();
-    if (!data) return info.innerHTML = `<p>Book not found!</p>`;
+    if (!data) return info.innerHTML = `<p>Pet not found!</p>`;
     info.innerHTML = `<p>${Object.values(data)}</p>`;
   } catch (error) {
     info.innerText = error;
   }
 };
-deleteBookBtn.onclick = deleteBookEvent;
+deletePetBtn.onclick = deletePetEvent;
